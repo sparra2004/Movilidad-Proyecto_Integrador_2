@@ -1,0 +1,361 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Sistema de diseño hospitalario accesible.
+ * Azules serenos + verdes suaves + acento cálido para motivación.
+ * Todos los colores en oklch, definidos aquí y expuestos como utilidades.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 12px);
+  --radius-3xl: calc(var(--radius) + 20px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-warm: var(--warm);
+  --color-warm-foreground: var(--warm-foreground);
+  --color-warm-soft: var(--warm-soft);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.975 0.012 220);
+  --foreground: oklch(0.24 0.045 245);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.045 245);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.045 245);
+  --primary: oklch(0.52 0.113 240);
+  --primary-foreground: oklch(0.99 0.005 220);
+  --primary-soft: oklch(0.93 0.032 235);
+  --secondary: oklch(0.94 0.028 225);
+  --secondary-foreground: oklch(0.3 0.055 245);
+  --muted: oklch(0.955 0.015 225);
+  --muted-foreground: oklch(0.45 0.035 245);
+  --accent: oklch(0.58 0.098 165);
+  --accent-foreground: oklch(0.99 0.005 180);
+  --accent-soft: oklch(0.93 0.04 165);
+  --warm: oklch(0.68 0.145 55);
+  --warm-foreground: oklch(0.2 0.05 55);
+  --warm-soft: oklch(0.94 0.045 70);
+  --success: oklch(0.58 0.11 155);
+  --success-foreground: oklch(0.99 0.005 160);
+  --warning: oklch(0.76 0.14 80);
+  --warning-foreground: oklch(0.26 0.06 70);
+  --destructive: oklch(0.55 0.185 25);
+  --destructive-foreground: oklch(0.99 0.005 25);
+  --border: oklch(0.89 0.02 230);
+  --input: oklch(0.89 0.02 230);
+  --ring: oklch(0.52 0.113 240);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ring);
+    outline-offset: 3px;
+  }
+}
+
+@utility card-surface {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  box-shadow: 0 10px 30px -22px oklch(0.3 0.06 245 / 0.55);
+}
+
+@utility tap-target {
+  min-height: 3.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border-radius: var(--radius-xl);
+  transition:
+    transform 0.15s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+@keyframes soft-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 oklch(0.68 0.145 55 / 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 16px oklch(0.68 0.145 55 / 0);
+  }
+}
+
+@keyframes arm-lift {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-105deg);
+  }
+}
+
+@keyframes arm-lift-mirror {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(105deg);
+  }
+}
+
+@keyframes leg-step {
+  0%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(18deg);
+  }
+}
+
+@keyframes leg-step-mirror {
+  0%,
+  100% {
+    transform: rotate(14deg);
+  }
+  50% {
+    transform: rotate(-16deg);
+  }
+}
+
+@keyframes body-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Animaciones especializadas de ejercicios hospitalarios */
+
+@keyframes sit-to-stand-body {
+  0%,
+  15% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(4px) rotate(8deg);
+  }
+  45%,
+  65% {
+    transform: translateY(-52px) rotate(0deg);
+  }
+  80% {
+    transform: translateY(4px) rotate(8deg);
+  }
+  90%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes knee-ext-right {
+  0%,
+  20% {
+    transform: rotate(0deg);
+  }
+  40%,
+  65% {
+    transform: rotate(-65deg);
+  }
+  85%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes ankle-pump-motion {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(-24deg);
+  }
+  70% {
+    transform: rotate(24deg);
+  }
+}
+
+@keyframes chest-open-left {
+  0%,
+  15%,
+  85%,
+  100% {
+    transform: rotate(0deg);
+  }
+  45%,
+  60% {
+    transform: rotate(-95deg);
+  }
+}
+
+@keyframes chest-open-right {
+  0%,
+  15%,
+  85%,
+  100% {
+    transform: rotate(0deg);
+  }
+  45%,
+  60% {
+    transform: rotate(95deg);
+  }
+}
+
+@keyframes bicep-curl-arm {
+  0%,
+  15%,
+  85%,
+  100% {
+    transform: rotate(0deg);
+  }
+  45%,
+  65% {
+    transform: rotate(-110deg);
+  }
+}
+
+@keyframes bicep-curl-arm-r {
+  0%,
+  15%,
+  85%,
+  100% {
+    transform: rotate(0deg);
+  }
+  45%,
+  65% {
+    transform: rotate(110deg);
+  }
+}
+
+@keyframes trunk-rotation-move {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-16deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(16deg);
+  }
+}
+
+@keyframes march-knee-left {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-45deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes march-knee-right {
+  0%,
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-45deg);
+  }
+}
+
+@keyframes heel-rise-lift {
+  0%,
+  15%,
+  85%,
+  100% {
+    transform: translateY(0);
+  }
+  45%,
+  65% {
+    transform: translateY(-16px);
+  }
+}
+@keyframes curl-forearm {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-135deg); } /* negativo = hacia arriba, de frente a la derecha */
+}
+@keyframes trunk-twist {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(0.82); }
+}
+
+@utility alarm-pulse {
+  animation: soft-pulse 1.8s ease-out infinite;
+}
